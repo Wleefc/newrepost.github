@@ -1,0 +1,268 @@
+index:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Signo Zodiacal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Logo de la marca -->
+    <header>
+        <div class="logo">
+            <h1>Wagner-Lee</h1>
+        </div>
+    </header>
+
+    <!-- Contenido de la página -->
+    <div class="container">
+        <h2>Descubre tu signo zodiacal</h2>
+        <input type="date" id="birthdate">
+        <button onclick="showZodiac()">Ver tu signo</button>
+        
+        <p id="zodiacMessage"></p>
+        
+        <button id="infoButton" style="display:none;" onclick="showZodiacInfo()">Saber más sobre tu signo</button>
+        
+        <div id="zodiacInfo" style="display:none;"></div>
+
+        <!-- Texto para alternar entre modo oscuro y claro -->
+        <div id="darkModeToggle" class="mode-toggle">
+            <span onclick="toggleDarkMode()">Modo oscuro</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+css:
+
+/* Estilo general de la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Estilo del encabezado (logo) */
+header {
+    background-color: #222;
+    padding: 10px;
+    text-align: center;
+}
+
+header .logo h1 {
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Estilo para el contenedor principal */
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilo de los botones */
+button {
+    padding: 10px 20px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Estilo del texto del mensaje */
+#zodiacMessage {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Estilo del mensaje del signo zodiacal */
+#zodiacInfo {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+body.dark-mode button {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode #zodiacMessage {
+    color: #fff;
+}
+
+body.dark-mode #zodiacInfo {
+    color: #ccc;
+}
+
+body.dark-mode header {
+    background-color: #000;
+}
+
+/* Posición del texto de alternancia entre modo oscuro y claro */
+.mode-toggle {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mode-toggle span {
+    color: #444;
+}
+
+body.dark-mode .mode-toggle span {
+    color: #fff;
+}
+
+
+js:
+// Función para obtener el signo zodiacal
+function getZodiacSign(month, day) {
+    if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+    if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Tauro";
+    if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Géminis";
+    if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cáncer";
+    if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
+    if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
+    if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
+    if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Escorpio";
+    if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagitario";
+    if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricornio";
+    if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Acuario";
+    return "Piscis";
+}
+
+// Función para mostrar el signo zodiacal
+function showZodiac() {
+    var birthdate = document.getElementById("birthdate").value;
+
+    if (birthdate) {
+        var date = new Date(birthdate);
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var zodiacSign = getZodiacSign(month, day);
+
+        // Mostrar el signo zodiacal con animación
+        var zodiacMessage = document.getElementById("zodiacMessage");
+        zodiacMessage.innerText = "Tu signo zodiacal es: " + zodiacSign;
+        zodiacMessage.classList.add("show");
+
+        // Mostrar el botón de información
+        document.getElementById("infoButton").style.display = "inline-block";
+        document.getElementById("infoButton").setAttribute("data-sign", zodiacSign);
+    } else {
+        document.getElementById("zodiacMessage").innerText = "Por favor, ingresa tu fecha de nacimiento.";
+    }
+}
+
+// Función para mostrar más información sobre el signo
+function showZodiacInfo() {
+    var zodiacSign = document.getElementById("infoButton").getAttribute("data-sign");
+
+    var zodiacInfo = "";
+    switch (zodiacSign) {
+        case "Aries":
+            zodiacInfo = "Aries (21 marzo - 19 abril):\n" +
+                "Signo de fuego, conocido por su valentía, energía y determinación. Los Aries son líderes naturales, impacientes y con gran capacidad para iniciar nuevos proyectos.\n" +
+                "Curiosidad: Aries es el primer signo del zodiaco, lo que refleja su carácter pionero. Su planeta regente es Marte, el dios de la guerra, lo que explica su naturaleza audaz y su pasión por la acción.";
+            break;
+        case "Tauro":
+            zodiacInfo = "Tauro (20 abril - 20 mayo):\n" +
+                "Signo de tierra, caracterizado por su estabilidad, paciencia y lealtad. Los Tauro disfrutan de las cosas buenas de la vida, como la comodidad y la belleza en su entorno.\n" +
+                "Curiosidad: Tauro es regido por Venus, el planeta del amor y la belleza, lo que les hace tener un sentido agudo para las artes y un gusto por lo lujoso, sin ser necesariamente materialistas.";
+            break;
+        case "Géminis":
+            zodiacInfo = "Géminis (21 mayo - 20 junio):\n" +
+                "Signo de aire, inteligente y adaptable. Los Géminis son conocidos por su versatilidad, curiosidad y habilidades comunicativas. Tienen una personalidad dual y disfrutan de la variedad.\n" +
+                "Curiosidad: Géminis es regido por Mercurio, el planeta de la comunicación. Esto les da una mente rápida y una capacidad para aprender y enseñar con facilidad. Además, su dualidad puede hacerlos cambiar de opinión constantemente.";
+            break;
+        case "Cáncer":
+            zodiacInfo = "Cáncer (21 junio - 22 julio):\n" +
+                "Signo de agua, intuitivo y emocional. Los Cáncer son conocidos por su sensibilidad, su capacidad para cuidar a los demás y su fuerte conexión con su hogar y familia.\n" +
+                "Curiosidad: Cáncer está regido por la Luna, lo que les otorga una profunda conexión con sus emociones y la capacidad de adaptarse a diferentes ambientes. Son extremadamente protectores con sus seres queridos.";
+            break;
+        case "Leo":
+            zodiacInfo = "Leo (23 julio - 22 agosto):\n" +
+                "Signo de fuego, dominante y lleno de confianza. Los Leo son líderes natos, creativos, generosos y disfrutan siendo el centro de atención. Son protectores con sus seres queridos.\n" +
+                "Curiosidad: Leo es regido por el Sol, lo que les da una personalidad brillante, llena de energía y optimismo. Se sienten cómodos bajo los reflectores y tienen un gran corazón.";
+            break;
+        case "Virgo":
+            zodiacInfo = "Virgo (23 agosto - 22 septiembre):\n" +
+                "Signo de tierra, práctico y detallista. Los Virgo son organizados, perfeccionistas y buscan la armonía en todos los aspectos de su vida. Son trabajadores incansables.\n" +
+                "Curiosidad: Virgo está regido por Mercurio, lo que les da una gran capacidad analítica y de organización. Son excelentes en la resolución de problemas y se destacan por su dedicación y atención al detalle.";
+            break;
+        case "Libra":
+            zodiacInfo = "Libra (23 septiembre - 22 octubre):\n" +
+                "Signo de aire, armonioso y sociable. Los Libra buscan la paz, el equilibrio y la belleza. Son personas amables, diplomáticas y excelentes para resolver conflictos.\n" +
+                "Curiosidad: Libra está regido por Venus, el planeta del amor y la belleza, lo que les otorga una gran apreciación por el arte, el diseño y la estética. Son conocidos por ser grandes mediadores y por su naturaleza diplomática.";
+            break;
+        case "Escorpio":
+            zodiacInfo = "Escorpio (23 octubre - 21 noviembre):\n" +
+                "Signo de agua, intenso y apasionado. Los Escorpio son profundos, misteriosos y tienen una gran capacidad para la transformación. Son muy leales y protectores.\n" +
+                "Curiosidad: Escorpio está regido por Plutón, el planeta de la transformación. Son conocidos por su naturaleza reservada, pero poseen una gran intuición y una habilidad para enfrentar situaciones difíciles con fortaleza.";
+            break;
+        case "Sagitario":
+            zodiacInfo = "Sagitario (22 noviembre - 21 diciembre):\n" +
+                "Signo de fuego, optimista y aventurero. Los Sagitario son filósofos y viajeros natos, siempre buscando la verdad y el sentido de la vida. Son apasionados por la libertad.\n" +
+                "Curiosidad: Sagitario es regido por Júpiter, el planeta de la expansión y el optimismo. Esto les otorga una mentalidad abierta, un amor por los viajes y una visión filosófica de la vida.";
+            break;
+        case "Capricornio":
+            zodiacInfo = "Capricornio (22 diciembre - 19 enero):\n" +
+                "Signo de tierra, ambicioso y disciplinado. Los Capricornio son conocidos por su responsabilidad, su enfoque en el éxito y su deseo de alcanzar grandes logros en la vida.\n" +
+                "Curiosidad: Capricornio está regido por Saturno, el planeta de la estructura y la disciplina. Son conocidos por su seriedad, su enfoque pragmático y su capacidad para superar obstáculos con esfuerzo y paciencia.";
+            break;
+        case "Acuario":
+            zodiacInfo = "Acuario (20 enero - 18 febrero):\n" +
+                "Signo de aire, innovador y humanitario. Los Acuario son conocidos por su creatividad, independencia y enfoque en el bienestar colectivo. Buscan siempre hacer el bien en el mundo.\n" +
+                "Curiosidad: Acuario está regido por Urano, el planeta de la innovación. Esto les otorga una mentalidad revolucionaria, un amor por las ideas progresistas y un deseo constante de romper con lo convencional.";
+            break;
+        case "Piscis":
+            zodiacInfo = "Piscis (19 febrero - 20 marzo):\n" +
+                "Signo de agua, intuitivo y empático. Los Piscis son soñadores, emocionales y tienen una gran conexión con el mundo espiritual. Son compasivos y siempre dispuestos a ayudar a los demás.\n" +
+                "Curiosidad: Piscis está regido por Neptuno, el planeta de los sueños y la espiritualidad. Son conocidos por su profunda conexión con el arte y la música, y por su capacidad para entender las emociones de los demás de una manera única.";
+            break;
+        default:
+            zodiacInfo = "¡Explora más sobre tu signo!";
+    }
+
+    document.getElementById("zodiacInfo").innerText = zodiacInfo;
+    document.getElementById("zodiacInfo").style.display = "block";
+}
+
+// Alternar modo oscuro y claro
+function toggleDarkMode() {
+    var body = document.body;
+    body.classList.toggle("dark-mode");
+    
+    var darkModeToggle = document.getElementById("darkModeToggle");
+    var modeText = body.classList.contains("dark-mode") ? "Modo claro" : "Modo oscuro";
+    darkModeToggle.querySelector("span").innerText = modeText;
+}
